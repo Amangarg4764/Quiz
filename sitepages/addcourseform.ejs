@@ -1,0 +1,21 @@
+<style>
+    a:link {
+        text-decoration: none;
+    }
+</style>
+<h2 style="text-align:center; color:blue;">ADD COURSE</h2>
+<form method="POST" autocomplete="off" style="margin:100px;margin-top: 0px;" action="/courseadd">
+    <div class="form-group">
+        <label for="course_name">Course Name</label>
+        <input name="coursename" class="form-control" placeholder="Course Name" required> 
+        <label for="question_number">Total Question</label>
+        <input name="coursequestion" type="number" class="form-control" placeholder="Minimum question will be 10" min="10" required>
+        <label for="total_marks">Total Marks</label>
+        <input name="coursepoint" type="number" class="form-control" placeholder="Minimum Points" min="50" required>
+        <label for="total_marks">Passing Marks</label>
+        <input name="coursepassingpoint" type="number" class="form-control" placeholder="Minimum Passing Points" min="50" required>
+        <label for="total_marks">Time Limit</label>
+        <input name="timelimit" type="number" class="form-control" placeholder="Time limit in Second"  required>
+    </div>
+    <button type="submit" class="btn btn-primary">ADD</button>
+</form>

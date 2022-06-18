@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Online Quiz</title>
+        <link rel="stylesheet" href="/css/login.css">
+    </head>
+    <body>
+        
+        <div id="main">
+            <div id="animateblock">
+             
+            </div>
+            <div id="login_form">
+                <div class="login_box_heading">
+                    <h1>
+                        Sign Up
+                    </h1>
+                </div>
+                <div  class="login_box_form">
+                    <form method="POST" action="/adduser">
+                        <label for="name">User Name</label>
+                            <input type="text" id="name" name="uname" placeholder="Enter your Name" required>
+                            <label for="email">Email Id:</label>
+                            <input type="email" id="email" name="uemail" placeholder="Enter your Email" required>
+                            <label for="password">New Password</label>
+                            <input type="password" id="password" name="upassword" placeholder="Enter your Password" required>
+                            <label for="ucpassword">Confirmed Password</label>
+                            <input type="password" id="ucpassword" name="ucpassword" onkeyup="handle()" placeholder="Enter your Confirmed Password" required>
+                            <span id="changes"></span>
+                            <label for="account">Account:</label>
+                            <div  style="display:flex; justify-content: space-evenly;"><div>
+                            <input type="radio" id="teacher" name="account" value="teacher" required> Teacher</div>
+                          <div>  <input type="radio" id="student" name="account" value="student"> Student</div>
+                            </div>
+                            <button>Submit</button>
+                            <span><a href="/">Already have a Account</a></span>
+                    </form>
+                </div>
+                <br>
+            </div>
+        </div>
+        <script>
+            function handle(){
+                var i=document.getElementById('password').value;
+                var j=document.getElementById('ucpassword').value;
+                
+                if(i === j){
+                    document.getElementById("changes").style.color="green";
+                    document.getElementById("changes").innerHTML="Password Match!";
+                }
+                else if(j === ""){
+                    document.getElementById("changes").innerHTML=" ";
+                }
+                else{
+                    document.getElementById("changes").style.color="red";
+                    document.getElementById("changes").innerHTML="Password  Does Not Match!";
+                }
+            }
+        </script>
+   
+    </body>
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Online Quiz</title>
+        <link rel="stylesheet" href="/css/login.css">
+    </head>
+    <body>
+        <div id="main">
+            <div id="animateblock">
+              <!--Animation block-->
+            </div>
+            <div id="login_form">
+                <div class="login_box_heading">
+                    <h1>
+                        Sign In
+                    </h1>
+                </div>
+                <div  class="login_box_form">
+                    <form action="/signin" method="POST">
+                        <label for="email">Email Id:</label>
+                        <input type="email" id="email" name="email" placeholder="Enter your Email" required>
+                        <label for="password">Password:</label>
+                        <input type="password" id="password" name="password" placeholder="Enter your Password" required>
+                        <label for="account">Account:</label>
+                        <div style="display:flex; justify-content: space-evenly;"><div>
+                        <input type="radio" id="teacher" name="account" value="teacher" required> Teacher</div>
+                        <div >
+                        <input type="radio" id="student" name="account" value="student"> Student</div>
+                        </div>
+                        <button>Sign In</button>
+                    </form>
+                </div>
+                <span class="signup_box_heading">
+                    <a href="/signup">Create Account</a>
+                </span>
+                <br>
+            </div>
+        </div>
+    </body>
+</html>

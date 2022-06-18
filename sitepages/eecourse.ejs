@@ -1,0 +1,126 @@
+<style type="text/css">
+    a:link {
+        text-decoration: none;
+    }
+
+    .order-card {
+        color: rgb(255, 255, 255);
+    }
+
+    .bg-c-blue {
+        background: #04868f;
+    }
+
+    .bg-c-green {
+        background: #4C51BF;
+    }
+
+    .bg-c-yellow {
+        background: #F56565;
+    }
+
+    .bg-c-pink {
+        background: #663a30;
+    }
+
+
+    .card {
+
+        -webkit-box-shadow: 0 1px 2.94px 0.06px rgba(4, 26, 55, 0.16);
+        box-shadow: 0 1px 2.94px 0.06px rgba(4, 26, 55, 0.16);
+        border: 1px solid black;
+        margin-bottom: 30px;
+        -webkit-transition: all 0.3s ease-in-out;
+        transition: all 0.3s ease-in-out;
+    }
+
+    .card .card-block {
+        padding: 25px;
+    }
+
+    .order-card i {
+        font-size: 26px;
+    }
+
+    .f-left {
+        float: left;
+    }
+
+    .f-right {
+        float: right;
+    }
+
+    header {
+        left: 0px;
+        right: 0px;
+    }
+</style>
+
+
+<div class="container">
+    <div class="row">
+
+
+        <div class="col-md-4 col-xl-6">
+            <br>
+            <div class="card bg-c-blue order-card">
+                <div class="card-block">
+                    <h4 class="m-b-20">
+                        <%= data.coursename.coursename %>
+                    </h4>
+                    <h5 class="text-left">Points <%= data.coursename.coursepoint %>
+                    </h5>
+                    <h5 class="text-left">Passing Points <%= data.coursename.cpassing %>
+                    </h5>
+                    <h5 class="text-left">Time Limit <%= data.coursename.ctime %>
+                    </h5>
+                    <h5 class="text-right" style="float:right">Question <%= data.coursename.coursequestion %>
+                    </h5>
+                    <a href="/test/?id=<%= data._id%>" style="text-decoration: none;color:white;">
+                        <button class="btn btn-secondary">Start Test</button>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <!--Leader board-->
+        <div class="col-md-4 col-xl-4"
+            style="color:white; border: 2px solid black;border-radius:10px;margin-left:10%;margin-top: 5%; background: linear-gradient(10deg,orange, var(--teal));">
+            <br>
+            <div class="container" style="height:50vh; overflow-y: scroll;">
+                <div class="panel panel-primary">
+                    <div class="panel-heading ">
+                        <h6 class="panel-title text-center">LeaderBoard For <%= data.coursename.coursename %>
+                        </h6>
+                    </div>
+                    <table class="table table-hover" id="dev-table">
+                        <thead>
+                            <tr></tr>
+                            <th>Name</th>
+                            <th>XP</th>
+                            </tr>
+                        </thead>
+                        <% for(i of cl) {%>
+
+                            <tr>
+                                <td>
+                                    <%= i.user.name %>
+                                </td>
+                                <td>
+                                    <%= i.level %>
+                                </td>
+
+                            </tr>
+
+
+                            <% } %>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<script src="http://netdna.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"></script>

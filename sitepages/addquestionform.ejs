@@ -1,0 +1,54 @@
+<style>
+    a:link {
+        text-decoration: none;
+    }
+    
+    
+</style>
+<div class="he">
+    <h2 style="text-align:center; color:blue;">ADD QUESTION</h2>
+    <form method="POST" autocomplete="off" style="margin:100px;margin-top: 0px;" action="/questionadd">
+        <div class="form-group">
+
+            <label for="question">Course</label>
+            <select class="form-control" name="qcoursename" required>
+                <% for(i of course) {%>
+                    <option value="<%= i._id %>">
+                        <%= i.coursename %>
+                    </option>
+                    <% } %>
+            </select>
+            <br>
+
+            <label for="question">Question</label>
+            <input name="questionstatement" id="question" placeholder="Enter question statement" class="form-control"
+                required>
+            <br>
+            <label for="question_number">Marks</label>
+            <input type="number" class="form-control" name="questionpoint" placeholder="1" max="10" required>
+            <br>
+            <label for="option1">Option 1</label>
+            <input class="form-control" name="option1" placeholder="Option 1" required>
+            <br>
+            <label for="option2">Option 2</label>
+            <input class="form-control" name="option2" placeholder="Option 2" required>
+            <br>
+            <label for="option3">Option 3</label>
+            <input class="form-control" name="option3" placeholder="Option 3" required>
+            <br>
+            <label for="option4">Option 4</label>
+            <input class="form-control" name="option4" placeholder="Option 4" required>
+            <br>
+            <label for="answer">Answer</label>
+            <select class="form-control" name="answer" required>
+                <option value="option1">Option1</option>
+                <option value="option2">Option2</option>
+                <option value="option3">Option3</option>
+                <option value="option4">Option4</option>
+            </select>
+        </div>
+
+
+        <button type="submit" class="btn btn-primary">ADD</button>
+    </form>
+</div>

@@ -1,0 +1,69 @@
+
+<style media="screen">
+    a:link {
+        text-decoration: none;
+    }
+
+    h6 {
+        text-align: center;
+    }
+
+    .row {
+        margin: 100px;
+    }
+</style>
+
+<div class="container">
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h6 class="panel-title">Your Profile</h6>
+        </div>
+        <table class="table table-hover" id="dev-table">
+            <thead>
+              
+                <th>Course Enrollment</th>
+                <th>Points Scored</th>
+                <th>Passing Points</th>
+                <th>Course Points</th>
+                <th>Time Limit</th>
+                </tr>
+            </thead>
+            <% var sum=0%>
+            <% for(i of data) {%>
+                <% if(i.anroleuser == user.id){ %>
+                <tr>
+                    
+                    <td>
+                        <%= i.coursename.coursename %>
+                    </td>
+                    <td>
+                        <%= i.marks %>
+                        <% sum+=parseInt(i.marks)%>
+                    </td>
+                    <td>
+                        <%= i.coursename.cpassing %>
+                    </td>
+                    <td>
+                        <%= i.coursename.coursepoint %>
+                    </td>
+                    <td>
+                        <%= i.coursename.ctime%>s
+                    </td>
+                </tr><% } }%>
+                <tr>
+                    <td></td>
+                    <td></td><td></td><td></td><td></td>
+                </tr>  
+              <tr>
+                <td> </td>
+                <td>   </td>    
+                <td></td>
+                <td>Total Points</td>
+                <td><%= sum%></td>
+                
+            </tr>
+            
+        </table>
+        
+    </div>
+</div>

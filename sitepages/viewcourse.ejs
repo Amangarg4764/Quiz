@@ -1,0 +1,161 @@
+<style type="text/css">
+    a:link {
+        text-decoration: none;
+    }
+
+    .order-card {
+        color: rgb(255, 255, 255);
+    }
+
+    .bg-c-blue {
+        background: #04868f;
+    }
+
+    .bg-c-green {
+        background: #4C51BF;
+    }
+
+    .bg-c-yellow {
+        background: #F56565;
+    }
+
+    .bg-c-pink {
+        background: #663a30;
+    }
+
+
+    .card {
+
+        -webkit-box-shadow: 0 1px 2.94px 0.06px rgba(4, 26, 55, 0.16);
+        box-shadow: 0 1px 2.94px 0.06px rgba(4, 26, 55, 0.16);
+        border: 1px solid black;
+        margin-bottom: 30px;
+        -webkit-transition: all 0.3s ease-in-out;
+        transition: all 0.3s ease-in-out;
+    }
+
+    .card .card-block {
+        padding: 25px;
+    }
+
+    .order-card i {
+        font-size: 26px;
+    }
+
+    .f-left {
+        float: left;
+    }
+
+    .f-right {
+        float: right;
+    }
+
+    header {
+        left: 0px;
+        right: 0px;
+    }
+    .uppercardtwo{
+        display:flex;
+        align-items: center;
+        justify-content: flex-end;
+        align-content: center;
+        background-color:#4C51BF; ;
+    }
+    .fa-trash{
+        color: red;
+    }
+    .fa-edit{
+        color: white;
+    }
+</style>
+</head>
+<br><br>
+
+<div class="container">
+    <div class="row">
+        <% for(i of course) {%>
+            <div class="col-md-4 col-xl-6" id="f<%= i.id%>" style="display:block;"> 
+                <% if(user.account=="teacher") {%>
+                <div class="uppercardtwo">
+                    <div onclick="hidden_data('<%= i.id%>')"><i class="fas fa-edit"></i></div>
+                    <div><a href="/coursedelete/?id=<%= i._id%>"><i class="fa fa-trash" aria-hidden="true"></i></a></div>
+                </div>
+                <% } %>
+                <div>
+                <% if(user.account=="teacher") {%>
+                <a href="/gotothequestion/?id=<%= i._id%>" style="text-decoration: none;color:white;">
+                    <div class="card bg-c-green order-card">
+                        <div class="card-block">
+                            <h4 class="m-b-20">
+                                <%= i.coursename %>
+                            </h4>
+                            <h5 class="text-left">Points <%= i.coursepoint %>
+                            </h5>
+                            <h5 class="text-left">Time Limit <%= i.ctime %>
+                            </h5>
+                            <h5 class="text-left" >Question <%= i.coursequestion %>
+                            </h5>
+                            <h5 class="text-right" style="float:right">Passing Point <%= i.cpassing %>
+                            </h5>
+                        </div>
+                    </div>
+                </div>
+                </a>
+                <% } else {%>
+               
+                    <div class="card bg-c-green order-card">
+                        <div class="card-block">
+                            <h4 class="m-b-20">
+                                <%= i.coursename %>
+                            </h4>
+                            <h5 class="text-left">Points <%= i.coursepoint %>
+                            </h5>
+                            <h5 class="text-left">Time Limit <%= i.ctime %>
+                            </h5>
+                            <h5 class="text-right" >Question <%= i.coursequestion %>
+                            </h5>
+                            <h5 class="text-right" style="float:right">Passing Point <%= i.cpassing %>
+                            </h5>
+                            <a href="/enroledreq/?id=<%= i._id%>"><button class="btn btn-success">Join</button></a>
+                        </div>
+                    </div>
+                </div>
+                    <% }%>
+            </div>
+            
+            
+            <div class="col-md-4 col-xl-6"  id='<%= i.id %>' style="display:none;">
+                <a style="text-decoration: none;color:white;">
+                    <div class="card bg-c-green order-card">
+                        <div class="card-block">
+                            <form method="post" action="/courseupdate/?id=<%= i._id %>">
+                            <h4 class="m-b-20">
+                                
+                               <input value="<%= i.coursename %>" name="coursename" required>
+                            </h4>
+                            <h5 class="text-left">Points <input value="<%= i.coursepoint %>" name="coursepoint" required>
+                            </h5>
+                            <h5 class="text-left">Time Limit <input value="<%= i.ctime %>" name="ctime" required>
+                            </h5>
+                            <h5 class="text-right" style="float:right">Question <input value="<%= i.coursequestion %>" name="coursequestion" required>
+                            </h5>
+                            <h5 class="text-right" >Passing Points <input value="<%= i.cpassing %>" name="cpassing" required>
+                            </h5>
+                            <button type="submit" class="btn btn-primary">Update</button>
+                        </form>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <% } %>
+    </div>
+</div>
+
+<script>
+    function hidden_data(id) {
+        document.getElementById(id).style.display = "block"; //this will show modification div box
+        document.getElementById('f' + id).style.display = "none";// this will hide the div box
+    }
+</script>
+
+<script src="http://netdna.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"></script>

@@ -1,0 +1,88 @@
+<style>
+    * {
+        margin: 0px;
+        padding: 0px;
+    }
+    .per {
+        text-align: left !important;
+    }
+    .uppercard{
+        display: flex;
+        align-content: center;
+        justify-content: flex-start;
+        align-items: center;
+    }
+    .uppercardtwo{
+        display: flex;
+        align-items: center;
+        flex-direction: row-reverse;
+
+    }
+</style>
+<div class="container my-4">
+    <div class="jumbotron">
+<h1  class="text-info text-center">
+    <%= course.coursename %>
+</h1>
+<% for(i of course.question) { %>
+    <div id="f<%= i.id%>" style="display:block; margin-left:10px;">
+        <div class="uppercard">
+            <div>
+                <p class="per">Question: <%= i.questionstatement %></p>
+            </div>
+            <div class="uppercardtwo">
+                <div onclick="hidden_data('<%= i.id%>')"><i class="fas fa-edit"></i></div>
+                <div><a href="/questiondelete/?id=<%= i._id%>"><i class="fa fa-trash" aria-hidden="true"></i></a></div>
+            </div>
+        </div>
+        <div class="lowercard">
+            Option1 : <%= i.option1 %>
+            <br>Option2 : <%= i.option2 %>
+            <br>Option3 : <%= i.option3 %>
+            <br>Option4 : <%= i.option4 %>
+            <br><span  class="text-success">Answer : <%= i.answer %></span>
+            <br><br>                        
+        </div>
+    </div>
+    <div>
+        <div id='<%= i.id %>' style="display:none; margin-left:10px;">
+            <form method="post" action="/questionupdate/?id=<%=i._id %>">        
+                    <label for="question">Question</label>
+                    <input name="questionstatement" id="question" placeholder="Enter question statement" value="<%= i.questionstatement %>" required>
+                    <br>
+                    <label for="question_number">Marks</label>
+                    <input type="number"  name="questionpoint" placeholder="10" min="1" max="10" value="<%= i.questionpoint%>" required>
+                    <br>
+                    <label for="option1">Option 1</label>
+                    <input  name="option1" placeholder="Option 1" value="<%= i.option1 %>" required>
+                    <br>
+                    <label for="option2">Option 2</label>
+                    <input  name="option2" placeholder="Option 2" value="<%= i.option2 %>" required>
+                    <br>
+                    <label for="option3">Option 3</label>
+                    <input  name="option3" placeholder="Option 3" value="<%= i.option3 %>" required>
+                    <br>
+                    <label for="option4">Option 4</label>
+                    <input  name="option4" placeholder="Option 4" value="<%= i.option4 %>" required>
+                    <br>
+                    <label for="answer">Answer</label>
+                    <select  name="answer" required>
+                        <option value="option1">Option1</option>
+                        <option value="option2">Option2</option>
+                        <option value="option3">Option3</option>
+                        <option value="option4">Option4</option>
+                    </select>
+                <br>
+                <button type="submit" class="btn btn-primary">Update</button>
+            </form>
+        </div>
+    </div>
+        <%}%>
+            <script>
+                function hidden_data(id) {
+                    document.getElementById(id).style.display = "block"; //this will show modification div box
+                    document.getElementById('f' + id).style.display = "none";// this will hide the div box
+                }
+            </script>
+
+        </div></div>

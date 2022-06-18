@@ -1,0 +1,52 @@
+<style media="screen">
+    a:link {
+        text-decoration: none;
+    }
+    h6 {
+        text-align: center;
+    }
+
+    
+</style>
+<div class="container">
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h6 class="panel-title">Enrolled Students details</h6>
+        </div>
+        <table class="table table-hover" id="dev-table">
+            <thead>
+                <tr></tr>
+                <th>Student Name</th>
+                <th>Student Email Id</th>
+                <th>Course Enrollment</th>
+                <th>Points</th>
+                <th>Passing Points</th>
+                <th>Course Points</th>
+                </tr>
+            </thead>
+            <% for(i of student) {%>
+                <tr>
+                    <td>
+                        <%= i.anroleuser.name %>
+                    </td>
+                    <td>
+                        <%= i.anroleuser.email %>
+                    </td>
+                    <td>
+                        <%= i.coursename.coursename %>
+                    </td>
+                    <td>
+                        <%= i.marks %>
+                    </td>
+                    <td>
+                        <%= i.coursename.cpassing %>
+                    </td>
+                    <td>
+                        <%= i.coursename.coursepoint %>
+                    </td>
+                </tr>
+                <% } %>
+        </table>
+        
+    </div>
+</div>

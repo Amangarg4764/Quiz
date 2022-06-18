@@ -1,0 +1,43 @@
+<style media="screen">
+    a:link {
+        text-decoration: none;
+    }
+
+    h6 {
+        text-align: center;
+    }
+
+    .row {
+        margin: 100px;
+    }
+</style>
+<div class="container">
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h6 class="panel-title">Pending Students</h6>
+        </div>
+        <table class="table table-hover" id="dev-table">
+            <thead>
+                <tr></tr>
+                <th>Student Name</th>
+                <th>Course Enrollment</th>
+                <th>Approve</th>
+                <th>Reject</th>
+                </tr>
+            </thead>
+            <% for(i of student) {%>
+                <tr>
+                    <td>
+                        <%= i.anroleuser.name %>
+                    </td>
+                    <td>
+                        <%= i.coursename.coursename %>
+                    </td>
+                    <td><a class="btn btn-primary btn-xs" href="/aprovedreq/?id=<%=i._id%>"><span class="glyphicon glyphicon-ok"></span></a></td>
+                    <td><a class="btn btn-danger btn-xs" href="/deletereq/?id=<%=i._id%>"><span class="	glyphicon glyphicon-remove"></span></a>
+                    </td>
+                </tr>
+                <% } %>
+        </table>
+    </div>
+</div>
