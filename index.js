@@ -15,7 +15,7 @@ const passport=require('passport');
 const passportLocal = require('./Config/passport-local');
 const MongoStore=require('connect-mongo');
 const expressLayout=require('express-ejs-layouts');
-const { query } = require('express');
+
 
 app.set('view engine','ejs');
 app.set('views',path.join(__dirname,'sitepages'));
@@ -49,7 +49,7 @@ app.get('/',function(req,res){
 
 
 app.get('/signout',function(req,res,next){
-    req.logout(req.user, err => {
+    req.logout(req.user, function(err) {
         if(err) return next(err);
         res.redirect("/");
       });
