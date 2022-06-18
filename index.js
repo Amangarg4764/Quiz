@@ -15,6 +15,7 @@ const passport=require('passport');
 const passportLocal = require('./Config/passport-local');
 const MongoStore=require('connect-mongo');
 const expressLayout=require('express-ejs-layouts');
+const bcrypt = require("bcrypt");
 
 
 app.set('view engine','ejs');
@@ -31,7 +32,7 @@ app.use(session({
         maxAge : (24*7 * 10 * 100 * 100)
     },
     store : MongoStore.create({
-        mongoUrl:'mongodb://localhost:27017/onlinequiz',
+        mongoUrl:process.env.MONGODB_URL || 'mongodb://localhost:27017/onlinequiz',
         mongooseConnect : database,
         autoRemove : 'disable'
     })
@@ -63,15 +64,18 @@ app.post('/adduser',function(req,res){
             console.log("Password did not match");
             return res.redirect('back');
         }
-        Userdata.findOne({email:req.body.uemail},function(err,user){
+        Userdata.findOne({email:req.body.uemail},async function(err,user){
             if(err){
                 console.log("Error in adding data");
                 return ;
             }
             if(!user){
+                const salt = await bcrypt.genSalt(10);
+                const hashedPassword = await bcrypt.hash(req.body.upassword, salt);
+
                 Userdata.create({
                     email:req.body.uemail,
-                    password:req.body.upassword,
+                    password:hashedPassword,
                     name:req.body.uname,
                     account:req.body.account,
                     totalxp:"0"
@@ -97,13 +101,7 @@ app.post('/signin',passport.authenticate('local',{failureRedirect : '/'}),functi
 });
 app.use(expressLayout);
 
-app.get('/dashboard',passport.checkAuthentication,function(req,res){
-    return res.render('dashboard');
-});
-
-app.get('/course',function(req,res){
-   return  res.render('course');
-});
+app.use('/',require('./router/index'));
 
 app.get('/addcourse',function(req,res){
     return res.render("addcourseform");
@@ -127,20 +125,7 @@ app.post('/courseadd',function(req,res){
         });
     });
 });
-app.get('/viewcourse',function(req,res){
-    if(req.user.account=="teacher"){
-    Userdata.findById(req.user._id).populate('ccourse').exec(function(err,data){
-       return res.render('viewcourse',{course:data.ccourse}); 
-    });
-    }else{
-    Coursedata.find({},function(err,data){
-        return res.render('viewcourse',{course:data}); 
-    });
-    }
-});
-app.get('/question',function(req,res){
-    return res.render('question');
-});
+
 app.get('/addquestion',function(req,res){
     Userdata.findById(req.user._id).populate('ccourse').exec(function(err,data){
             return res.render('addquestionform',{course:data.ccourse}); 
@@ -243,27 +228,7 @@ app.get('/coursedelete',async function(req,res){
     return res.redirect('back');
 });
 
-app.get('/student',function(req,res){
-    return res.render('student');
-});
 
-app.get('/enroledreq',async function(req,res){
-   // console.log(req.query.id);
-   let reqd=await Studendata.create({
-        coursename:req.query.id,
-        marks:'0',
-        anroleuser:req.user._id,
-        enrolestatus:false
-    });
-   // console.log(reqd);
-    let cd=await Coursedata.findById(req.query.id);
-    let ud=await Userdata.findById(cd.cuser);
-    ud.studentreq.push(reqd);
-    ud.save();
-   // console.log(ud);
-   
-    return res.redirect('back');
-});
 app.get('/deletereq',async function(req,res){
     console.log(req.query.id);
     let delreq=await Studendata.findByIdAndDelete(req.query.id);
@@ -314,95 +279,6 @@ app.get('/viewstudentcourse',async function(req,res){
     console.log(ud);
     return res.render('viewstudentcourse',{student:ud.studentapprovd});
 });
-//after click on enrolled it go to the course
-app.get('/enrolecourse',async function(req,res){
-    let ud=await Userdata.findById(req.user._id).populate('cenrolled').populate({
-        path:'cenrolled',
-        populate: { path:  'coursename',
-		    model: 'course' }
-    }).exec();
-    //console.log(ud);
-    return res.render('viewecwl',{data:ud.cenrolled});
-});
-
-
-//make test
-app.get('/test',async function(req,res){
-    //console.log(req.query.id);
-    let data=await Studendata.findById(req.query.id).populate('coursename').populate({
-        path:'coursename',
-        populate: { path:  'question',
-		    model: 'question' }
-    }).exec();
-    //console.log(data);
-    return res.render('test',{i:data});
-});
-app.get('/startt',async function(req,res){
-    let data=await Studendata.findById(req.query.id).populate('coursename').populate({
-        path:'coursename',
-        populate: { path:  'question',
-		    model: 'question' }
-    }).exec();
-    return res.render('startt',{data:data});
-});
-app.get('/api',async function(req,res){
-    let data=await Studendata.findById(req.query.id).populate('coursename').populate({
-        path:'coursename',
-        populate: { path:  'question',
-		    model: 'question' }
-    }).exec();
-    return res.status(200).json({
-        data:data.coursename.question
-    });
-});
-
-//update marks
-app.get('/submitted',async function(req,res){
-    //console.log(req.query.id);
-    let data=await Studendata.findByIdAndUpdate(req.query.id,{marks:req.query.score});
-    Historydata.create({
-        user:req.user.id,
-        course:data.coursename,
-        marks:req.query.score
-    },function(err,datas){
-        //console.log(datas);
-    });
-    let exp=await Experiencedata.find({course:data.coursename,user:req.user.id});
-    if(exp== ""){
-        let re=await Experiencedata.create({
-            user:req.user.id,
-            course:data.coursename,
-            level:req.query.score
-        });
-        //console.log(re);
-    }else{
-    let rl=parseInt(exp[0].level)+parseInt(req.query.score);
-    let newexp=await Experiencedata.findByIdAndUpdate(exp[0].id,{level:rl});
-    //console.log(newexp);
-    }
-    let ud=await Userdata.findById(req.user.id);
-    await Userdata.findByIdAndUpdate(req.user.id,{totalxp:parseInt(ud.totalxp)+parseInt(req.query.score)});
-    //console.log(ud.totalxp);
-    return res.redirect('/dashboard');
-});
-
-app.get('/profile',async function(req,res){
-    let data=await Studendata.find({}).populate('coursename').exec();
-    return res.render('history',{data:data});
-});
-app.get('/history',async function(req,res){
-    let data=await Historydata.find({}).populate('course').exec();
-    return res.render('profile',{data:data});
-});
-//add leader board for all course on based of xp 
-app.get('/gototest',async function(req,res){
-    let ud=await Studendata.findById(req.query.id).populate('coursename').exec();
-    //send leader board
-    let cl=await Experiencedata.find({course:ud.coursename.id}).populate('user').exec();
-    
-    //console.log(cl);
-    return res.render('eecourse',{data:ud,cl:cl});
-});
 //and if you want to continue
 
 
@@ -411,5 +287,5 @@ app.listen(port,function(err){
         console.log("error in port");
         return ;
     }
-    console.log("server is up and running");
+    console.log("server is up and running",port);
 });

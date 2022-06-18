@@ -3,10 +3,6 @@
   "version": "1.0.0",
   "description": "Placement project",
   "main": "index.js",
-  "engines": {
-    "node": "17.7.2",
-    "npm": "8.1.2"
-  },
   "scripts": {
     "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -17,6 +13,7 @@
   "author": "AMAN GARG",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^5.0.1",
     "connect-mongo": "^4.6.0",
     "cookie-parser": "^1.4.6",
     "dotenv": "^16.0.1",
@@ -29,6 +26,7 @@
     "node": "^17.7.2",
     "nodemon": "^2.0.16",
     "passport": "^0.6.0",
-    "passport-local": "^1.0.0"
+    "passport-local": "^1.0.0",
+    "react-router": "^6.3.0"
   }
 }

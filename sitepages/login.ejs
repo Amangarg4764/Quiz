@@ -3,11 +3,25 @@
     <head>
         <title>Online Quiz</title>
         <link rel="stylesheet" href="/css/login.css">
+        <style>
+            #animate_one{
+    height: 100vh;
+    width: 100vw;
+    background-color: rgb(255, 187, 0);
+    position: absolute;
+    z-index: -1;
+    top:0;
+    left:0;
+    clip-path: polygon(0 0,0% 100%,26% 100%,100% 0);
+    display: block;
+}
+        </style>
     </head>
     <body>
+        <div id="animate_one"></div>
         <div id="main">
             <div id="animateblock">
-              <!--Animation block-->
+              <%- include('_animation')%>
             </div>
             <div id="login_form">
                 <div class="login_box_heading">

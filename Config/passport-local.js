@@ -1,6 +1,7 @@
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const User = require('../models/Users');
+const bcrypt = require("bcrypt");
 
 
 passport.use(new LocalStrategy({
@@ -8,14 +9,16 @@ passport.use(new LocalStrategy({
     passReqToCallback:true
 },
     function(req,email,password,done){
-        console.log(req.body.account);
-        User.findOne({email:email},function(err,user){
+        //console.log(password);
+        User.findOne({email:email},async function(err,user){
             //console.log(user.account);
             if(err){
                 console.log('err');
                 return done(null,false);
             }
-            if(!user || user.password!=password || user.account!=req.body.account){
+            let valid= await bcrypt.compare(password,user.password);
+            console.log(valid);
+            if(!user || !valid || user.account!=req.body.account){
                 console.log('Invalid User');
                 return done(null,false);
             }
