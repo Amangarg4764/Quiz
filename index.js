@@ -263,22 +263,7 @@ app.get('/aprovedreq',async function(req,res){
     return res.redirect('back');
 });
 
-//fetch what you append
-app.get('/viewstudentcourse',async function(req,res){
-    let ud=await Userdata.findById(req.user._id).populate('studentapprovd').
-    populate({
-        path:'studentapprovd',
-        populate: { path:  'coursename',
-		    model: 'course' }
-    }).
-    populate({
-        path:'studentapprovd',
-        populate: { path:  'anroleuser',
-		    model: 'user' }
-    }).exec();
-    console.log(ud);
-    return res.render('viewstudentcourse',{student:ud.studentapprovd});
-});
+
 //and if you want to continue
 
 
