@@ -56,6 +56,7 @@ router.get('/submitted',passport.checkAuthentication,async function(req,res){
     let ud=await Userdata.findById(req.user.id);
     await Userdata.findByIdAndUpdate(req.user.id,{totalxp:parseInt(ud.totalxp)+parseInt(req.query.score)});
     //console.log(ud.totalxp);
+    req.flash('success','Your test is submitted');
     return res.redirect('/dashboard');
 });
 

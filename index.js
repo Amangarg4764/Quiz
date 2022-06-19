@@ -41,6 +41,7 @@ app.use(passport.setAuthenticatedUser);
 
 app.get('/',function(req,res){
     if(req.isAuthenticated()){
+        req.flash('success','You have Are already logged in');
         return res.redirect('/dashboard');
     }
     res.render('login');
@@ -85,11 +86,12 @@ app.post('/adduser',function(req,res){
                         console.log("Error in adding email id in database");
                         return;
                     }
+                    req.flash('success','Account Created');
                     return res.redirect('/');
                 });
             }
             else{
-               
+                req.flash('error','User is already created');
                 console.log("User is already created");
                 return res.redirect('back');
             }
@@ -97,6 +99,8 @@ app.post('/adduser',function(req,res){
     });
 
 app.post('/signin',passport.authenticate('local',{failureRedirect : '/'}),function(req,res){
+    console.log(req.user.name);
+    req.flash('success','Welcome back '+req.user.name);
     res.redirect('/dashboard');
 });
 

@@ -33,6 +33,7 @@ router.post('/questionadd',passport.checkAuthentication,async function(req,res){
              udata.cquestion.push(qdata);
              cdata.save();
              udata.save();
+             req.flash('success','Question saved to the course');
              return res.redirect('back');
          });
      });
@@ -66,6 +67,7 @@ router.post('/questionupdate',passport.checkAuthentication,async function(req,re
         option4: req.body.option4,
         answer: req.body.answer
     });
+    req.flash('success','Question updated Successfully');
     return res.redirect('back');
 });
 
@@ -78,6 +80,7 @@ router.get('/questiondelete',passport.checkAuthentication,async function(req,res
     //console.log(courseu);
     let useru=await Userdata.findByIdAndUpdate(courseu.cuser,{$pull:{cquestion:req.query.id}});
     //console.log(useru);
+    req.flash('success','Question is Successfully deleted');
     return res.redirect('back');
 });
 

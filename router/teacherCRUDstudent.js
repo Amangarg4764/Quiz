@@ -31,6 +31,7 @@ router.get('/aprovedreq',passport.checkAuthentication,async function(req,res){
     ste.save();
     console.log(ste);
    await Userdata.findByIdAndUpdate(ste.anroleuser,{$push:{cenrolled:ste}});
+   req.flash('success','You have approved!');
     return res.redirect('back');
 });
 
@@ -39,6 +40,7 @@ router.get('/deletereq',passport.checkAuthentication,async function(req,res){
     console.log(req.query.id);
     let delreq=await Studendata.findByIdAndDelete(req.query.id);
     await Userdata.findByIdAndUpdate(req.user._id,{$pull:{studentreq:req.query.id}});
+    req.flash('success','You have Rejected student');
     return res.redirect('back');
 });
 

@@ -20,7 +20,7 @@ router.get('/enroledreq',passport.checkAuthentication,async function(req,res){
      ud.studentreq.push(reqd);
      ud.save();
     // console.log(ud);
-    
+    req.flash('success','Requested submited');
      return res.redirect('back');
  });
 

@@ -25,6 +25,7 @@ router.post('/courseadd',passport.checkAuthentication,function(req,res){
              //console.log(newcourse);
              user.ccourse.push(newcourse);
              user.save();
+             req.flash('success','Course created..');
              return res.redirect('/course');
          });
      });
@@ -39,6 +40,7 @@ router.post('/courseupdate',passport.checkAuthentication,async function(req,res)
         ctime:req.body.ctime,
         cpassing:req.body.cpassing
     });
+    req.flash('success','Course Updated..');
     return res.redirect('back');
 });
 
@@ -59,6 +61,7 @@ router.get('/coursedelete',passport.checkAuthentication,async function(req,res){
         await Userdata.findByIdAndUpdate(req.user._id,{$pull:{cquestion:coursea.question[i]}});
     }
    //console.log(coursea.question);
+   req.flash('success','Successfully deleted the course.');
     return res.redirect('back');
 });
 
