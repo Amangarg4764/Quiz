@@ -31,7 +31,7 @@ router.get('/enrolecourse',passport.checkAuthentication,async function(req,res){
         populate: { path:  'coursename',
 		    model: 'course' }
     }).exec();
-    //console.log(ud);
+    console.log(ud.cenrolled);
     return res.render('viewecwl',{data:ud.cenrolled});
 });
 

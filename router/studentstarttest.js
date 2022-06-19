@@ -17,7 +17,7 @@ router.get('/startt',passport.checkAuthentication,async function(req,res){
 });
 
 //send data question in form of api
-router.get('/api',passport.checkAuthentication,async function(req,res){
+router.get('/api',async function(req,res){
     let data=await Studendata.findById(req.query.id).populate('coursename').populate({
         path:'coursename',
         populate: { path:  'question',

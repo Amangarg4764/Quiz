@@ -13,9 +13,11 @@ const expressLayout=require('express-ejs-layouts');
 const bcrypt = require("bcrypt");
 const flash=require('connect-flash');
 const custommw=require('./Config/middleware');
+var cors = require('cors');
 
 app.set('view engine','ejs');
 app.set('views',path.join(__dirname,'sitepages'));
+
 app.use(express.urlencoded({extended:true}));
 app.use(express.static(__dirname+'/assests'));
 app.use(cookieParser());
@@ -38,7 +40,14 @@ app.use(passport.session());
 app.use(flash());
 app.use(custommw.setFlash);
 app.use(passport.setAuthenticatedUser);
-
+app.use(cors({
+    origin:"*"
+}));
+app.use(function(req,res,next){
+    res.header("Access-Control-Allow-Origin","*");
+    res.header("Access-Control-Allow-Headers","Origin, X-Requested-With,Content-Type,Accept");
+    next();
+});
 app.get('/',function(req,res){
     if(req.isAuthenticated()){
         req.flash('success','You have Are already logged in');
