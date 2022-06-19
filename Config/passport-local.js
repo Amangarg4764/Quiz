@@ -16,8 +16,9 @@ passport.use(new LocalStrategy({
                 console.log('err');
                 return done(null,false);
             }
-            let valid= await bcrypt.compare(password,user.password);
-            console.log(valid);
+            let valid=false;
+            try{valid= await bcrypt.compare(password,user.password);
+            console.log(valid);}catch(err){ return done(null,false);}
             if(!user || !valid || user.account!=req.body.account){
                 req.flash('error','Invalid User/Password');
                 console.log('Invalid User');
