@@ -14,5 +14,10 @@ router.use('/',require('./studentjoinedcourse'));
 router.use('/',require('./studenttestdetail'));
 //student start test
 router.use('/',require('./studentstarttest'));
+//----------------------------------------------------------------------------teacher
+//teacher CRUD Question
+router.use('/',require('./teacherCRUDquestion'));
+//teacher CRUD course
+router.use('/',require('./teacherCRUDcourse'));
 
 module.exports=router;
