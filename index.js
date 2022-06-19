@@ -4,11 +4,6 @@ const app=express();
 const path=require('path');
 const database=require('./Config/mongoose');
 const Userdata=require('./models/Users');
-const Historydata=require('./models/history');
-const Experiencedata=require('./models/experience');
-const Coursedata=require('./models/Course');
-const Questiondata=require('./models/question');
-const Studendata=require('./models/student');
 const cookieParser=require('cookie-parser');
 const session = require('express-session');
 const passport=require('passport');
@@ -16,7 +11,8 @@ const passportLocal = require('./Config/passport-local');
 const MongoStore=require('connect-mongo');
 const expressLayout=require('express-ejs-layouts');
 const bcrypt = require("bcrypt");
-
+const flash=require('connect-flash');
+const custommw=require('./Config/middleware');
 
 app.set('view engine','ejs');
 app.set('views',path.join(__dirname,'sitepages'));
@@ -39,6 +35,8 @@ app.use(session({
 }));
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(flash());
+app.use(custommw.setFlash);
 app.use(passport.setAuthenticatedUser);
 
 app.get('/',function(req,res){
@@ -52,9 +50,11 @@ app.get('/',function(req,res){
 app.get('/signout',function(req,res,next){
     req.logout(req.user, function(err) {
         if(err) return next(err);
+        req.flash('success','You have logged out successfully');
         res.redirect("/");
       });
 });
+
 app.get('/signup',function(req,res){
     res.render('signup');
 });
@@ -99,46 +99,11 @@ app.post('/adduser',function(req,res){
 app.post('/signin',passport.authenticate('local',{failureRedirect : '/'}),function(req,res){
     res.redirect('/dashboard');
 });
-app.use(expressLayout);
 
+app.use(expressLayout);
 app.use('/',require('./router/index'));
 
-app.get('/deletereq',async function(req,res){
-    console.log(req.query.id);
-    let delreq=await Studendata.findByIdAndDelete(req.query.id);
-    await Userdata.findByIdAndUpdate(req.user._id,{$pull:{studentreq:req.query.id}});
-    return res.redirect('back');
-});
-app.get('/addstudent',async function(req,res){
-    let ud=await Userdata.findById(req.user._id).populate('studentreq').
-    populate({
-        path:'studentreq',
-        populate: { path:  'coursename',
-		    model: 'course' }
-    }).
-    populate({
-        path:'studentreq',
-        populate: { path:  'anroleuser',
-		    model: 'user' }
-    }).exec();
-    //console.log(ud);
-    return res.render('addstudent',{student:ud.studentreq});
-});
-//aproved request -->see in view student course --> student ka couress
-app.get('/aprovedreq',async function(req,res){
-    console.log(req.query.id);
-    await Userdata.findByIdAndUpdate(req.user._id,{$push:{studentapprovd:req.query.id}});
-    await Userdata.findByIdAndUpdate(req.user._id,{$pull:{studentreq:req.query.id}});
-    let ste=await Studendata.findById(req.query.id);
-    ste.enrolestatus="true";
-    ste.save();
-    console.log(ste);
-   await Userdata.findByIdAndUpdate(ste.anroleuser,{$push:{cenrolled:ste}});
-    return res.redirect('back');
-});
-
 //and if you want to continue
-
 
 app.listen(port,function(err){
     if(err){
