@@ -85,6 +85,7 @@
     <div class="row">
     
         <% for(i of data) {%>
+            <% if(i.coursename.coursename!=null){%>
             <div class="col-md-4 col-xl-6">
                 <br>
                 <div class="card bg-c-green order-card">
@@ -106,7 +107,8 @@
                     </a>
                 </div>
             </div>
-           <% } %>  
+
+           <% } } %>  
 
 
     </div>

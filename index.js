@@ -56,7 +56,6 @@ app.get('/',function(req,res){
     res.render('login');
 });
 
-
 app.get('/signout',function(req,res,next){
     req.logout(req.user, function(err) {
         if(err) return next(err);

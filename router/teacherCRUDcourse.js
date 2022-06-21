@@ -4,6 +4,7 @@ const passport=require('passport');
 const Userdata=require('../models/Users');
 const Coursedata=require('../models/Course');
 const Questiondata=require('../models/question');
+const Studendata=require('../models/student');
 
 //go to add course page
 router.get('/addcourse',passport.checkAuthentication,function(req,res){
@@ -60,6 +61,10 @@ router.get('/coursedelete',passport.checkAuthentication,async function(req,res){
     for(var  i=0;i<coursea.question.length;i++){
         await Userdata.findByIdAndUpdate(req.user._id,{$pull:{cquestion:coursea.question[i]}});
     }
+    //delete all from student and enrolled user
+    let ed=await Studendata.find({coursename:req.query.id});
+    
+    console.log(ed);
    //console.log(coursea.question);
    req.flash('success','Successfully deleted the course.');
     return res.redirect('back');
