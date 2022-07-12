@@ -20,34 +20,46 @@
 * Then it will be shown in student account.
 
 # Screenshots
-*Login page
+
+* Login page
 ![](./assests/image/l1.png)
-*Register page
+* Register page
 ![](./assests/image/l2.png)
 
-* Teacher
+* Teacher 
+
 * Teacher Dashboard
 ![](./assests/image/td.png)
+
 * Teacher Add course page
 ![](./assests/image/tac.png)
+
 * All Course question
 ![](./assests/image/tq.png)
+
 * Student enroll detail in teacher Account
 ![](./assests/image/tes.png)
 
 
 * Student
+
 * Student Dashboard
 ![](./assests/image/sd.png)
+
 * All course
 ![](./assests/image/ec.png)
+
 * Student Test history
 ![](./assests/image/sh.png)
+
 * Student Test Dashboard
 ![](./assests/image/testd.png)
+
 * Test instruction
 ![](./assests/image/inc.png)
+
 * Mcq Layout
 ![](./assests/image/mcq.png)
+
 * Result Layout
 ![](./assests/image/res.png)
