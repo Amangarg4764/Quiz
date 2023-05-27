@@ -8,7 +8,7 @@
 * Run Command npm install.
 * Run Command npm start
 * Open in your browser and go to (https://localhost:8000)
-* I already deployed it at heroku (http://quiztimeplacement.herokuapp.com/)
+* I already deployed it at render.com (https://quiz-ygvc.onrender.com)
 
 # Features
 * Adding your Account as Teacher or Student.
